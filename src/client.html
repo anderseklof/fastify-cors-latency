@@ -1,0 +1,56 @@
+<html>
+
+<head>
+  <title>Fastify CORS latency test</title>
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script>
+    const url = 'http://127.0.0.1:2090/test-route'
+    const config = {
+      data: [
+        {
+          someKey: 'someValue',
+          anotherKey: 'anotherValue',
+        },
+      ],
+      headers: {
+        Authorization:
+          'Bearer <JWT>',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    }
+
+    async function requestOk() {
+      console.log('Started...')
+
+      config.headers.Authorization = 'Bearer ' + "a".repeat(500)
+
+      const result = await axios(url, config)
+
+      console.log('Done: ', result)
+    }
+
+    async function requestLatency() {
+      console.log('Started...')
+
+      config.headers.Authorization = 'Bearer ' + "b".repeat(1000)
+
+      const result = await axios(url, config)
+
+      console.log('Done: ', result)
+    }
+  </script>
+</head>
+
+<body>
+  <div>
+    <button onclick="requestOk()">Request OK</button>
+    <br>
+    <button onclick="requestLatency()">Request latency</button>
+  </div>
+</body>
+
+</html>
