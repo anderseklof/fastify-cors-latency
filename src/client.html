@@ -42,6 +42,16 @@
 
       console.log('Done: ', result)
     }
+
+    async function request400() {
+      console.log('Started...')
+
+      config.headers.Authorization = 'Bearer ' + "c".repeat(3500)
+
+      const result = await axios(url, config)
+
+      console.log('Done: ', result)
+    }
   </script>
 </head>
 
@@ -50,6 +60,8 @@
     <button onclick="requestOk()">Request OK</button>
     <br>
     <button onclick="requestLatency()">Request latency</button>
+    <br>
+    <button onclick="request400()">Request 400</button>
   </div>
 </body>
 
